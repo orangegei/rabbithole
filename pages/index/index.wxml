@@ -1,0 +1,64 @@
+<!-- 首页视觉稿承载剧本封面与底部导航。 -->
+<view class="home-page">
+  <image
+    class="home-visual"
+    src="{{visualSrc}}"
+    mode="aspectFill"
+    aria-label="Rabbit Hole {{selectedCity}}剧本首页"
+  />
+
+  <view
+    class="city-selector"
+    bindtap="openCityPicker"
+    hover-class="city-selector--pressed"
+    hover-stay-time="80"
+    aria-role="button"
+    aria-label="选择城市，当前城市：{{selectedCity}}"
+  >
+    <view class="city-marker" aria-hidden="true">
+      <view class="city-marker-dot"></view>
+    </view>
+    <text class="city-name">{{selectedCity}}</text>
+    <text class="city-chevron" aria-hidden="true">›</text>
+  </view>
+
+  <view class="home-tab-bar" aria-label="首页导航">
+    <view
+      class="home-tab-item {{activeTab === 'script' ? 'home-tab-item--selected' : ''}}"
+      data-tab="script"
+      bindtap="selectTab"
+      hover-class="home-tab-item--pressed"
+      hover-stay-time="80"
+      aria-role="button"
+      aria-label="剧本"
+    >
+      <image
+        class="home-tab-icon"
+        src="{{activeTab === 'script' ? '/assets/tab-script-active.png' : '/assets/tab-script.png'}}"
+        mode="aspectFit"
+      />
+      <text class="home-tab-label">剧本</text>
+    </view>
+    <view
+      class="home-tab-item {{activeTab === 'profile' ? 'home-tab-item--selected' : ''}}"
+      data-tab="profile"
+      bindtap="selectTab"
+      hover-class="home-tab-item--pressed"
+      hover-stay-time="80"
+      aria-role="button"
+      aria-label="个人"
+    >
+      <image
+        class="home-tab-icon"
+        src="{{activeTab === 'profile' ? '/assets/tab-profile-active.png' : '/assets/tab-profile.png'}}"
+        mode="aspectFit"
+      />
+      <text class="home-tab-label">个人</text>
+    </view>
+  </view>
+</view>
+
+<city-picker
+  visible="{{isCityPickerVisible}}"
+  bind:close="closeCityPicker"
+/>

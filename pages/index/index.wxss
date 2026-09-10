@@ -1,0 +1,131 @@
+page {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.home-visual {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.home-page {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.city-selector {
+  position: absolute;
+  top: 60rpx;
+  left: 24rpx;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  min-width: 184rpx;
+  height: 80rpx;
+  padding: 0 24rpx 0 18rpx;
+  color: #4e371e;
+  background: #fffaf0;
+  border: 2rpx solid rgba(126, 85, 43, 0.24);
+  border-radius: 40rpx;
+  box-shadow: 0 4rpx 12rpx rgba(94, 63, 30, 0.12);
+}
+
+.city-selector--pressed {
+  transform: scale(0.97);
+  opacity: 0.88;
+}
+
+.city-marker {
+  position: relative;
+  width: 26rpx;
+  height: 26rpx;
+  margin-right: 10rpx;
+  background: #e85a47;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+}
+
+.city-marker-dot {
+  position: absolute;
+  top: 8rpx;
+  left: 8rpx;
+  width: 10rpx;
+  height: 10rpx;
+  background: #fffaf0;
+  border-radius: 50%;
+}
+
+.city-name {
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: 30rpx;
+  font-weight: 550;
+  line-height: 1;
+}
+
+.city-chevron {
+  transform: translateY(-3rpx); 
+  margin-left: 12rpx;
+  font-size: 42rpx;
+  font-weight: 300;
+  line-height: 28rpx;
+}
+
+.home-tab-bar {
+  position: absolute;
+  right: 24rpx;
+  bottom: 24rpx;
+  bottom: calc(env(safe-area-inset-bottom) + 24rpx);
+  left: 24rpx;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  height: 118rpx;
+  box-sizing: border-box;
+  padding: 8rpx;
+  background: rgba(255, 249, 237, 0.96);
+  border: 2rpx solid rgba(131, 88, 44, 0.2);
+  border-radius: 60rpx;
+  box-shadow: 0 8rpx 20rpx rgba(94, 63, 30, 0.18);
+}
+
+.home-tab-item {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #8a6948;
+  border-radius: 52rpx;
+}
+
+.home-tab-item--pressed {
+  transform: scale(0.96);
+  opacity: 0.82;
+}
+
+.home-tab-icon {
+  width: 62rpx;
+  height: 62rpx;
+}
+
+.home-tab-label {
+  margin-top: -2rpx;
+  font-size: 24rpx;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.home-tab-item--selected {
+  color: #5b351a;
+}
+
+.home-tab-item--selected .home-tab-label {
+  font-weight: 600;
+}
