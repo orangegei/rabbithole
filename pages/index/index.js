@@ -19,6 +19,12 @@ Page({
     })
   },
 
+  openScriptOpening() {
+    wx.navigateTo({
+      url: '/pages/script-opening/script-opening',
+    })
+  },
+
   selectTab(event) {
     this.setData({
       activeTab: event.currentTarget.dataset.tab,

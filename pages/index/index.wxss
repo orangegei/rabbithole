@@ -18,6 +18,20 @@ page {
   height: 100%;
 }
 
+.task-card-link {
+  position: absolute;
+  top: 30%;
+  left: 0;
+  z-index: 1;
+  width: 72%;
+  height: 48%;
+  border-radius: 24rpx;
+}
+
+.task-card-link--pressed {
+  background: rgba(91, 53, 26, 0.08);
+}
+
 .city-selector {
   position: absolute;
   top: 60rpx;

@@ -1,5 +1,6 @@
 <!-- 首页视觉稿承载剧本封面与底部导航。 -->
 <view class="home-page">
+  <!-- 背景图 -->
   <image
     class="home-visual"
     src="{{visualSrc}}"
@@ -7,6 +8,17 @@
     aria-label="Rabbit Hole {{selectedCity}}剧本首页"
   />
 
+  <!-- 进入剧本按钮 -->
+  <view
+    class="task-card-link"
+    bindtap="openScriptOpening"
+    hover-class="task-card-link--pressed"
+    hover-stay-time="80"
+    aria-role="button"
+    aria-label="进入剧本开篇"
+  ></view>
+
+  <!-- 左上角城市选择按钮 -->
   <view
     class="city-selector"
     bindtap="openCityPicker"
@@ -22,7 +34,9 @@
     <text class="city-chevron" aria-hidden="true">›</text>
   </view>
 
+  <!-- 底部导航 -->
   <view class="home-tab-bar" aria-label="首页导航">
+    <!-- 底部剧本按钮 -->
     <view
       class="home-tab-item {{activeTab === 'script' ? 'home-tab-item--selected' : ''}}"
       data-tab="script"
@@ -39,6 +53,7 @@
       />
       <text class="home-tab-label">剧本</text>
     </view>
+    <!-- 底部个人按钮 -->
     <view
       class="home-tab-item {{activeTab === 'profile' ? 'home-tab-item--selected' : ''}}"
       data-tab="profile"
@@ -58,6 +73,7 @@
   </view>
 </view>
 
+<!-- 按下地图选择后的界面 -->
 <city-picker
   visible="{{isCityPickerVisible}}"
   bind:close="closeCityPicker"
