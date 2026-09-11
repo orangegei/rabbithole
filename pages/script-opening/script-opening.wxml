@@ -1,5 +1,55 @@
 <view class="script-opening-page">
-  <view class="script-opening-content">
-    <text class="script-opening-title">剧本开篇</text>
+  <!-- 参考图的羊皮纸、卷轴、山水和已绘制按钮底图。 -->
+  <image class="script-opening-background" src="/assets/GPT_t1v3_down.png" mode="aspectFill" />
+
+  <!-- 覆盖在底图上的标题、案情和收束文案。 -->
+  <view class="script-opening-copy">
+    <!-- 卷轴框上方的主标题。 -->
+    <text class="script-opening-title">{{title}}</text>
+
+    <!-- 卷轴框内的连续案情正文。 -->
+    <view class="script-opening-story">
+      <text
+        wx:for="{{storyLines}}"
+        wx:key="*this"
+        class="script-opening-story-line"
+      >{{item}}</text>
+    </view>
+
+    <!-- 卷轴底部的案件统计语和“你敢查吗？”。 -->
+    <view class="script-opening-closing">
+      <text class="script-opening-summary">{{caseSummary}}</text>
+      <text class="script-opening-challenge">{{challenge}}</text>
+    </view>
   </view>
+
+  <!-- 底部居中的“开始探索”透明热区。 -->
+  <view
+    class="script-opening-button script-opening-button--explore"
+    bindtap="startExplore"
+    hover-class="{{showHotspots ? 'script-opening-button--pressed' : 'none'}}"
+    hover-stay-time="80"
+    aria-role="button"
+    aria-label="开始探索"
+  ></view>
+
+  <!-- 底部左侧“评论”透明热区。 -->
+  <view
+    class="script-opening-button script-opening-button--comments"
+    bindtap="openComments"
+    hover-class="{{showHotspots ? 'script-opening-button--pressed' : 'none'}}"
+    hover-stay-time="80"
+    aria-role="button"
+    aria-label="评论"
+  ></view>
+
+  <!-- 底部右侧“返回”透明热区。 -->
+  <view
+    class="script-opening-button script-opening-button--back"
+    bindtap="goBack"
+    hover-class="{{showHotspots ? 'script-opening-button--pressed' : 'none'}}"
+    hover-stay-time="80"
+    aria-role="button"
+    aria-label="返回首页"
+  ></view>
 </view>

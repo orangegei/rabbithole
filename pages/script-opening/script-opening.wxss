@@ -1,27 +1,134 @@
 page {
   width: 100%;
-  min-height: 100%;
-  background: #fffaf0;
+  height: 100%;
+  overflow: hidden;
 }
 
 .script-opening-page {
-  min-height: 100vh;
-  box-sizing: border-box;
-  padding: 120rpx 48rpx;
+  /* 整张参考图的全屏定位画布。 */
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
-.script-opening-content {
-  padding: 56rpx 40rpx;
-  background: #fffdf7;
-  border: 2rpx solid rgba(126, 85, 43, 0.24);
-  border-radius: 24rpx;
-  box-shadow: 0 8rpx 20rpx rgba(94, 63, 30, 0.12);
+.script-opening-background {
+  /* 羊皮纸、卷轴边框、山水和按钮底图。 */
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}
+
+.script-opening-copy {
+  /* 参考图中覆盖在卷轴上的所有原生文字。 */
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: #2d1209;
+  font-family: 'STKaiti', 'KaiTi', 'Microsoft YaHei', serif;
+  pointer-events: none;
 }
 
 .script-opening-title {
+  /* 卷轴框上方居中的主标题。 */
+  position: absolute;
+  top: 8.1%;
+  left: 9%;
   display: block;
-  color: #4e371e;
-  font-size: 48rpx;
-  font-weight: 600;
+  width: 82%;
+  font-size: 58rpx;
+  font-weight: 700;
+  line-height: 1.32;
+  letter-spacing: 2rpx;
   text-align: center;
+}
+
+.script-opening-story {
+  /* 卷轴框内连续案情的文字安全区。 */
+  position: absolute;
+  top: 22.3%;
+  left: 11.5%;
+  width: 71%;
+}
+
+.script-opening-story-line {
+  /* 卷轴框内每一行案情文字。 */
+  display: block;
+  margin-bottom: 21rpx;
+  font-size: 37rpx;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: 0.5rpx;
+  white-space: nowrap;
+}
+
+.script-opening-closing {
+  /* 卷轴底部、山水上方的收束语区域。 */
+  position: absolute;
+  top: 62%;
+  left: 10%;
+  width: 80%;
+  text-align: center;
+}
+
+.script-opening-summary {
+  /* “4起事故、4名嫌疑人”的统计语。 */
+  display: block;
+  font-size: 31rpx;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.5rpx;
+  white-space: nowrap;
+}
+
+.script-opening-challenge {
+  /* 统计语下方居中的“你敢查吗？”。 */
+  display: block;
+  margin-top: 11rpx;
+  font-size: 62rpx;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 3rpx;
+}
+
+.script-opening-button {
+  /* 覆盖在底图按钮上的通用透明点击热区。 */
+  position: absolute;
+  z-index: 2;
+  border-radius: 999rpx;
+}
+
+.script-opening-button--explore {
+  /* 底部居中的“开始探索”按钮。 */
+  top: 76.2%;
+  left: 29.5%;
+  width: 41%;
+  height: 6.2%;
+}
+
+.script-opening-button--comments {
+  /* 底部左侧的“评论”按钮。 */
+  top: 83.3%;
+  left: 14.5%;
+  width: 34.5%;
+  height: 5.6%;
+}
+
+.script-opening-button--back {
+  /* 底部右侧的“返回”按钮。 */
+  top: 83.3%;
+  left: 53.5%;
+  width: 34.5%;
+  height: 5.6%;
+}
+
+.script-opening-button--pressed {
+  /* 三枚底部按钮共用的轻微按压遮罩。 */
+  background: rgba(91, 53, 26, 0.16);
+  transform: scale(0.97);
 }
