@@ -1,4 +1,4 @@
-// index.js
+// script-home.js
 Page({
   data: {
     isCityPickerVisible: false,

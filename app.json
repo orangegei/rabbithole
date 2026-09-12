@@ -1,6 +1,6 @@
 {
   "pages": [
-    "pages/index/index",
+    "pages/script-home/script-home",
     "pages/script-opening/script-opening"
   ],
   "window": {
