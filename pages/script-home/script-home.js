@@ -2,7 +2,6 @@
 Page({
   data: {
     isCityPickerVisible: false,
-    activeTab: 'script',
     selectedCity: '南京',
     visualSrc: '/assets/GPT_t1v1_nj.png',
   },
@@ -25,9 +24,13 @@ Page({
     })
   },
 
-  selectTab(event) {
-    this.setData({
-      activeTab: event.currentTarget.dataset.tab,
+  handleTabChange(event) {
+    if (event.detail.tab !== 'profile') {
+      return
+    }
+
+    wx.navigateTo({
+      url: '/pages/user-profile/user-profile',
     })
   },
 

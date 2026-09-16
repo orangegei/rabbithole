@@ -1,0 +1,199 @@
+page {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.user-profile-page {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.user-profile-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.user-profile-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  color: #4a210d;
+  font-family: 'STKaiti', 'KaiTi', 'Microsoft YaHei', serif;
+}
+
+.profile-summary {
+  position: absolute;
+  top: 10.1%;
+  left: 12%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 76%;
+}
+
+.profile-avatar {
+  display: block;
+  width: 218rpx;
+  height: 218rpx;
+  border-radius: 50%;
+}
+
+.profile-avatar-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 218rpx;
+  height: 218rpx;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: transparent;
+  border-radius: 50%;
+  line-height: 1;
+}
+
+.profile-avatar-button::after {
+  border: 0;
+}
+
+.profile-name {
+  margin-top: 24rpx;
+  font-size: 68rpx;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 4rpx;
+}
+
+.profile-login-hint {
+  margin-top: 18rpx;
+  color: #715941;
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: 36rpx;
+  line-height: 1.3;
+}
+
+.profile-editor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 20rpx;
+}
+
+.profile-nickname-input {
+  box-sizing: border-box;
+  width: 430rpx;
+  height: 76rpx;
+  padding: 0 30rpx;
+  color: #4a210d;
+  background: rgba(255, 248, 224, 0.86);
+  border: 2rpx solid rgba(126, 86, 44, 0.42);
+  border-radius: 999rpx;
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: 32rpx;
+  line-height: 76rpx;
+  text-align: center;
+}
+
+.profile-nickname-placeholder {
+  color: #96785a;
+}
+
+.profile-editor-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 18rpx;
+}
+
+.profile-editor-action {
+  box-sizing: border-box;
+  min-width: 146rpx;
+  height: 58rpx;
+  margin: 0 12rpx;
+  padding: 0 24rpx;
+  border-radius: 999rpx;
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: 28rpx;
+  line-height: 58rpx;
+}
+
+.profile-editor-action::after {
+  border: 0;
+}
+
+.profile-editor-action[disabled] {
+  opacity: 0.7;
+}
+
+.profile-editor-action--plain {
+  color: #6d4c32;
+  background: rgba(255, 248, 224, 0.7);
+}
+
+.profile-editor-action--primary {
+  color: #fff7df;
+  background: #7d4b25;
+}
+
+.profile-actions {
+  position: absolute;
+  top: 49%;
+  left: 9%;
+  width: 82%;
+}
+
+.profile-action {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 138rpx;
+  margin-top: 50rpx;
+  overflow: hidden;
+  border-radius: 999rpx;
+}
+
+.profile-action:first-child {
+  margin-top: 0;
+}
+
+.profile-action--pressed {
+  opacity: 0.84;
+  transform: scale(0.97);
+}
+
+.profile-action-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.profile-action-label,
+.profile-action-arrow {
+  position: relative;
+  z-index: 1;
+}
+
+.profile-action-label {
+  margin-left: 68rpx;
+  font-size: 54rpx;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 2rpx;
+}
+
+.profile-action-arrow {
+  margin-left: auto;
+  margin-right: 58rpx;
+  font-family: 'PingFang SC', sans-serif;
+  font-size: 94rpx;
+  font-weight: 300;
+  line-height: 0.75;
+}

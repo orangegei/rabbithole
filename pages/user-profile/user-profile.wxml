@@ -1,0 +1,98 @@
+<view class="user-profile-page">
+  <!-- 全屏羊皮纸山水底图，仅负责视觉呈现。 -->
+  <image
+    class="user-profile-background"
+    src="/assets/GPT_t2_under.png"
+    mode="aspectFill"
+    aria-hidden="true"
+  />
+
+  <!-- 位于底图之上的个人信息与功能按钮内容层。 -->
+  <view class="user-profile-content">
+    <!-- 授权登录区域：点击头像选择微信头像，确认昵称后保存到本机。 -->
+    <view class="profile-summary">
+      <button
+        class="profile-avatar-button"
+        open-type="chooseAvatar"
+        bindchooseavatar="handleChooseAvatar"
+        aria-label="选择微信头像"
+      >
+        <image class="profile-avatar" src="{{avatarSrc}}" mode="aspectFill" />
+      </button>
+      <text class="profile-name">{{displayName}}</text>
+      <view wx:if="{{isEditingProfile}}" class="profile-editor">
+        <input
+          class="profile-nickname-input"
+          type="nickname"
+          value="{{pendingNickname}}"
+          placeholder="请输入微信昵称"
+          placeholder-class="profile-nickname-placeholder"
+          focus="{{isEditingProfile}}"
+          bindinput="handleNicknameInput"
+          bindchange="handleNicknameInput"
+        />
+        <view class="profile-editor-actions">
+          <button
+            class="profile-editor-action profile-editor-action--plain"
+            disabled="{{isSavingProfile}}"
+            bindtap="cancelProfileEdit"
+          >取消</button>
+          <button
+            class="profile-editor-action profile-editor-action--primary"
+            disabled="{{isSavingProfile}}"
+            bindtap="completeProfile"
+          >{{isSavingProfile ? '保存中' : '完成'}}</button>
+        </view>
+      </view>
+      <text wx:else class="profile-login-hint">{{loginHint}}</text>
+    </view>
+
+    <!-- 三个功能入口：使用纸张图片作外观，外层 view 承担真实点击与按压反馈。 -->
+    <view class="profile-actions">
+      <!-- 继续游戏占位入口。 -->
+      <view
+        class="profile-action"
+        bindtap="continueGame"
+        hover-class="profile-action--pressed"
+        hover-stay-time="80"
+        aria-role="button"
+        aria-label="继续游戏"
+      >
+        <image class="profile-action-background" src="/assets/GPT_t2_button_alpha.png" mode="scaleToFill" />
+        <text class="profile-action-label">继续游戏</text>
+        <text class="profile-action-arrow" aria-hidden="true">›</text>
+      </view>
+
+      <!-- 重置剧本进度占位入口。 -->
+      <view
+        class="profile-action"
+        bindtap="resetScriptProgress"
+        hover-class="profile-action--pressed"
+        hover-stay-time="80"
+        aria-role="button"
+        aria-label="重置剧本进度"
+      >
+        <image class="profile-action-background" src="/assets/GPT_t2_button_alpha.png" mode="scaleToFill" />
+        <text class="profile-action-label">重置剧本进度</text>
+        <text class="profile-action-arrow" aria-hidden="true">›</text>
+      </view>
+
+      <!-- 关于小程序占位入口。 -->
+      <view
+        class="profile-action"
+        bindtap="openAbout"
+        hover-class="profile-action--pressed"
+        hover-stay-time="80"
+        aria-role="button"
+        aria-label="关于小程序"
+      >
+        <image class="profile-action-background" src="/assets/GPT_t2_button_alpha.png" mode="scaleToFill" />
+        <text class="profile-action-label">关于小程序</text>
+        <text class="profile-action-arrow" aria-hidden="true">›</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 与首页共用的底部导航，个人项保持选中状态。 -->
+  <bottom-tab-bar active-tab="profile" bind:tabchange="handleTabChange" />
+</view>

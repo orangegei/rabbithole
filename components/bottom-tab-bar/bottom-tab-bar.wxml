@@ -1,0 +1,34 @@
+<view class="bottom-tab-bar" aria-label="页面导航">
+  <view
+    class="bottom-tab-item {{activeTab === 'script' ? 'bottom-tab-item--selected' : ''}}"
+    data-tab="script"
+    bindtap="selectTab"
+    hover-class="bottom-tab-item--pressed"
+    hover-stay-time="80"
+    aria-role="button"
+    aria-label="剧本"
+  >
+    <image
+      class="bottom-tab-icon"
+      src="{{activeTab === 'script' ? '/assets/tab-script-active.png' : '/assets/tab-script.png'}}"
+      mode="aspectFit"
+    />
+    <text class="bottom-tab-label">剧本</text>
+  </view>
+  <view
+    class="bottom-tab-item {{activeTab === 'profile' ? 'bottom-tab-item--selected' : ''}}"
+    data-tab="profile"
+    bindtap="selectTab"
+    hover-class="bottom-tab-item--pressed"
+    hover-stay-time="80"
+    aria-role="button"
+    aria-label="个人"
+  >
+    <image
+      class="bottom-tab-icon"
+      src="{{activeTab === 'profile' ? '/assets/tab-profile-active.png' : '/assets/tab-profile.png'}}"
+      mode="aspectFit"
+    />
+    <text class="bottom-tab-label">个人</text>
+  </view>
+</view>

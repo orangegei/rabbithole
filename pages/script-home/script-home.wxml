@@ -34,43 +34,7 @@
     <text class="city-chevron" aria-hidden="true">›</text>
   </view>
 
-  <!-- 底部导航 -->
-  <view class="home-tab-bar" aria-label="首页导航">
-    <!-- 底部剧本按钮 -->
-    <view
-      class="home-tab-item {{activeTab === 'script' ? 'home-tab-item--selected' : ''}}"
-      data-tab="script"
-      bindtap="selectTab"
-      hover-class="home-tab-item--pressed"
-      hover-stay-time="80"
-      aria-role="button"
-      aria-label="剧本"
-    >
-      <image
-        class="home-tab-icon"
-        src="{{activeTab === 'script' ? '/assets/tab-script-active.png' : '/assets/tab-script.png'}}"
-        mode="aspectFit"
-      />
-      <text class="home-tab-label">剧本</text>
-    </view>
-    <!-- 底部个人按钮 -->
-    <view
-      class="home-tab-item {{activeTab === 'profile' ? 'home-tab-item--selected' : ''}}"
-      data-tab="profile"
-      bindtap="selectTab"
-      hover-class="home-tab-item--pressed"
-      hover-stay-time="80"
-      aria-role="button"
-      aria-label="个人"
-    >
-      <image
-        class="home-tab-icon"
-        src="{{activeTab === 'profile' ? '/assets/tab-profile-active.png' : '/assets/tab-profile.png'}}"
-        mode="aspectFit"
-      />
-      <text class="home-tab-label">个人</text>
-    </view>
-  </view>
+  <bottom-tab-bar active-tab="script" bind:tabchange="handleTabChange" />
 </view>
 
 <!-- 按下地图选择后的界面 -->
