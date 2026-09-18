@@ -1,0 +1,65 @@
+<view class="suspect-list-page">
+  <!-- 标题、表头、纸张边框和胶带装饰均由背景图提供。 -->
+  <image
+    class="suspect-list-background"
+    src="/assets/GPT_t1v5_background.png"
+    mode="scaleToFill"
+  />
+
+  <view
+    class="suspect-list-back-button"
+    bindtap="goBack"
+    hover-class="suspect-list-back-button--pressed"
+    hover-stay-time="80"
+    aria-role="button"
+    aria-label="返回案件开场"
+  ></view>
+
+  <view class="suspect-list-rows">
+    <view
+      wx:for="{{suspects}}"
+      wx:key="name"
+      class="suspect-list-row"
+    >
+      <image
+        class="suspect-list-name-card"
+        src="/assets/GPT_t1v5_name.png"
+        mode="scaleToFill"
+      />
+      <text class="suspect-list-name">{{item.name}}</text>
+
+      <view
+        class="suspect-list-status-button"
+        data-index="{{index}}"
+        bindtap="onTapStatus"
+        hover-class="suspect-list-status-button--pressed"
+        hover-stay-time="80"
+        aria-role="button"
+        aria-label="{{item.status}}"
+      >
+        <image
+          class="suspect-list-status-card {{item.locked ? 'suspect-list-status-card--locked' : 'suspect-list-status-card--unlocked'}}"
+          src="{{item.statusAsset}}"
+          mode="scaleToFill"
+        />
+        <text class="suspect-list-status">{{item.status}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view
+    wx:if="{{allCompleted}}"
+    class="suspect-list-final-button"
+    bindtap="onTapFinalReasoning"
+    hover-class="suspect-list-final-button--pressed"
+    hover-stay-time="80"
+    aria-role="button"
+    aria-label="进入最终推理"
+  >
+    <image
+      class="suspect-list-final-button-image"
+      src="/assets/GPT_t1v5_enter.png"
+      mode="scaleToFill"
+    />
+  </view>
+</view>

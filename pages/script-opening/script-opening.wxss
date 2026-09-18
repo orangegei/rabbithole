@@ -60,7 +60,7 @@ page {
   /* 卷轴框内每一行案情文字。 */
   display: block;
   margin-bottom: 21rpx;
-  font-size: 37rpx;
+  font-size: 35rpx;
   font-weight: 600;
   line-height: 1.45;
   letter-spacing: 0.5rpx;

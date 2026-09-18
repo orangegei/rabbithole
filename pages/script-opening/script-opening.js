@@ -22,7 +22,10 @@ Page({
   },
 
   startExplore() {
-    // 参考图底部居中的“开始探索”按钮。
+    // 进入嫌疑人列表页。
+    wx.navigateTo({
+      url: '/pages/suspect-list/suspect-list',
+    })
   },
 
   openComments() {
@@ -30,9 +33,18 @@ Page({
   },
 
   goBack() {
-    // 参考图底部右侧的“返回”按钮。
-    wx.navigateBack({
-      delta: 1,
+    const pages = getCurrentPages()
+    const previousPage = pages[pages.length - 2]
+
+    if (previousPage && previousPage.route === 'pages/script-home/script-home') {
+      wx.navigateBack({
+        delta: 1,
+      })
+      return
+    }
+
+    wx.redirectTo({
+      url: '/pages/script-home/script-home',
     })
   },
 })

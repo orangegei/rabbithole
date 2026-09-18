@@ -1,0 +1,156 @@
+page {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.suspect-list-page {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #fbf4dc;
+}
+
+.suspect-list-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}
+
+.suspect-list-back-button {
+  position: absolute;
+  z-index: 2;
+  top: 5.5%;
+  left: 4.5%;
+  width: 14%;
+  height: 8%;
+}
+
+.suspect-list-back-button--pressed {
+  opacity: 0.7;
+  transform: scale(0.92);
+}
+
+.suspect-list-rows {
+  position: absolute;
+  z-index: 1;
+  top: 28%;
+  left: 8.1%;
+  width: 83.8%;
+}
+
+.suspect-list-row {
+  position: relative;
+  width: 100%;
+  height: 10vh;
+  margin-bottom: 2vh;
+}
+
+/* 姓名纸条 */
+.suspect-list-name-card {
+  position: absolute;
+  top: -12%;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 150%;
+}
+
+/* 姓名文字 */
+.suspect-list-name {
+  position: absolute;
+  top: 45%;
+  left: 4.8%;
+  z-index: 1;
+  display: block;
+  width: 46%;
+  overflow: hidden;
+  color: #1f160f;
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: 30rpx;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: 0.2rpx;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 状态纸条 */
+.suspect-list-status-button {
+  position: absolute;
+  top: 20%;
+  right: 2.5%;
+  width: 48%;
+  height: 80%;
+}
+
+.suspect-list-status-card {
+  position: absolute;
+  display: block;
+}
+
+.suspect-list-status-card--unlocked {
+  top: -6%;
+  left: 3%;
+  width: 95%;
+  height: 118%;
+}
+
+.suspect-list-status-card--locked {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* 状态文字 */
+.suspect-list-status {
+  position: absolute;
+  top: 36%;
+  right: 9.2%;
+  z-index: 1;
+  display: block;
+  width: 80.5%;
+  overflow: hidden;
+  color: #2f170d;
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: 27rpx;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.suspect-list-status-button--pressed {
+  opacity: 0.82;
+  transform: scale(0.985);
+}
+
+.suspect-list-final-button {
+  position: absolute;
+  z-index: 2;
+  /* 图片高度为内容区的 160%，用底部内边距补齐命中区域。 */
+  bottom: calc(16% - 5.7vh);
+  left: 12%;
+  width: 76%;
+  height: 9.5vh;
+  padding-bottom: 5.7vh;
+  box-sizing: content-box;
+}
+
+/* 进入最终推理 */
+.suspect-list-final-button-image {
+  display: block;
+  width: 100%;
+  height: 160%;
+}
+
+.suspect-list-final-button--pressed {
+  opacity: 0.82;
+  transform: scale(0.975);
+}

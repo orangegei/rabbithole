@@ -2,7 +2,8 @@
   "pages": [
     "pages/script-home/script-home",
     "pages/user-profile/user-profile",
-    "pages/script-opening/script-opening"
+    "pages/script-opening/script-opening",
+    "pages/suspect-list/suspect-list"
   ],
   "window": {
     "navigationBarTextStyle": "black",
