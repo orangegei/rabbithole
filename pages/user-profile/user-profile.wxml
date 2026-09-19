@@ -9,11 +9,12 @@
 
   <!-- 位于底图之上的个人信息与功能按钮内容层。 -->
   <view class="user-profile-content">
-    <!-- 授权登录区域：点击头像选择微信头像，确认昵称后保存到本机。 -->
+    <!-- 可选个人资料，与云端身份登录分开。 -->
     <view class="profile-summary">
       <button
         class="profile-avatar-button"
-        open-type="chooseAvatar"
+        open-type="{{isLoggedIn ? 'chooseAvatar' : ''}}"
+        aria-disabled="{{!isLoggedIn}}"
         bindchooseavatar="handleChooseAvatar"
         aria-label="选择微信头像"
       >
@@ -49,17 +50,18 @@
 
     <!-- 三个功能入口：使用纸张图片作外观，外层 view 承担真实点击与按压反馈。 -->
     <view class="profile-actions">
-      <!-- 继续游戏占位入口。 -->
+      <!-- 未登录时复用为微信登录入口，已登录时保留继续游戏入口。 -->
       <view
-        class="profile-action"
-        bindtap="continueGame"
-        hover-class="profile-action--pressed"
+        class="profile-action {{isAuthBusy ? 'profile-action--disabled' : ''}}"
+        bindtap="handlePrimaryAction"
+        hover-class="{{isAuthBusy ? 'none' : 'profile-action--pressed'}}"
         hover-stay-time="80"
         aria-role="button"
-        aria-label="继续游戏"
+        aria-label="{{primaryActionLabel}}"
+        aria-disabled="{{isAuthBusy}}"
       >
         <image class="profile-action-background" src="/assets/GPT_t2_button_alpha.png" mode="scaleToFill" />
-        <text class="profile-action-label">继续游戏</text>
+        <text class="profile-action-label">{{primaryActionLabel}}</text>
         <text class="profile-action-arrow" aria-hidden="true">›</text>
       </view>
 

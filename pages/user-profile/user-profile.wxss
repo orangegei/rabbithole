@@ -167,6 +167,10 @@ page {
   transform: scale(0.97);
 }
 
+.profile-action--disabled {
+  opacity: 0.72;
+}
+
 .profile-action-background {
   position: absolute;
   top: 0;

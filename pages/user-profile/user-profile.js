@@ -1,4 +1,4 @@
-const PROFILE_STORAGE_KEY = 'userProfile'
+const auth = require('../../utils/auth')
 const DEFAULT_PROFILE = {
   nickname: '旅行者',
   avatarPath: '/assets/GPT_t2_avatar.png',
@@ -13,22 +13,102 @@ Page({
     profile: DEFAULT_PROFILE,
     avatarSrc: DEFAULT_PROFILE.avatarPath,
     displayName: DEFAULT_PROFILE.nickname,
-    loginHint: '点击头像授权登录',
+    loginHint: '登录后可设置头像昵称',
+    isLoggedIn: false,
+    isAuthBusy: true,
+    primaryActionLabel: '登录状态确认中…',
     isEditingProfile: false,
     isSavingProfile: false,
     pendingAvatarPath: '',
     pendingNickname: '',
   },
 
-  onLoad() {
-    this.loadUserProfile()
+  onLoad(options = {}) {
+    this.loginIntent = options.intent === 'script' ? 'script' : ''
+    this.unsubscribeAuth = auth.subscribe((session) => this.applyAuthState(session))
+    auth.initialize()
+  },
+
+  onUnload() {
+    this.isPageActive = false
+    this.userId = ''
+    this.unsubscribeAuth()
+  },
+
+  onShow() {
+    this.isPageActive = true
+  },
+
+  onHide() {
+    this.isPageActive = false
+  },
+
+  applyAuthState(session) {
+    const isLoggedIn = session.status === 'authenticated'
+    const isAuthBusy = ['unknown', 'restoring', 'loggingIn'].includes(session.status)
+    const labels = {
+      unknown: '登录状态确认中…',
+      restoring: '登录状态确认中…',
+      loggingIn: '登录中…',
+      authenticated: '继续游戏',
+    }
+    this.setData({
+      isLoggedIn,
+      isAuthBusy,
+      primaryActionLabel: labels[session.status] || '微信登录',
+    })
+
+    if (this.userId !== session.userId) {
+      this.userId = session.userId
+      this.applyDefaultProfile()
+      if (isLoggedIn) {
+        this.loadUserProfile()
+      }
+    }
+  },
+
+  async handlePrimaryAction() {
+    if (this.data.isAuthBusy || this.isHandlingPrimaryAction) {
+      return
+    }
+    if (auth.getState().status === 'authenticated') {
+      this.continueGame()
+      return
+    }
+
+    this.isHandlingPrimaryAction = true
+    const session = await auth.login()
+    if (this.isPageActive === false) {
+      this.isHandlingPrimaryAction = false
+      return
+    }
+    if (session.status !== 'authenticated') {
+      this.isHandlingPrimaryAction = false
+      wx.showToast({ title: session.errorMessage, icon: 'none' })
+      return
+    }
+
+    if (this.loginIntent === 'script') {
+      wx.redirectTo({
+        url: '/pages/script-opening/script-opening',
+        fail: () => {
+          this.isHandlingPrimaryAction = false
+          wx.showToast({ title: '已登录，请从首页进入剧本', icon: 'none' })
+        },
+      })
+      return
+    }
+
+    this.isHandlingPrimaryAction = false
+    wx.showToast({ title: '登录成功', icon: 'success' })
   },
 
   loadUserProfile() {
+    const userId = this.userId
     let savedProfile
 
     try {
-      savedProfile = wx.getStorageSync(PROFILE_STORAGE_KEY)
+      savedProfile = wx.getStorageSync(`userProfile:${userId}`)
     } catch (error) {
       this.applyDefaultProfile()
       return
@@ -45,6 +125,9 @@ Page({
     wx.getFileSystemManager().access({
       path: avatarPath,
       success: () => {
+        if (this.userId !== userId) {
+          return
+        }
         this.applyProfile({
           nickname,
           avatarPath,
@@ -52,8 +135,11 @@ Page({
         })
       },
       fail: () => {
+        if (this.userId !== userId) {
+          return
+        }
         try {
-          wx.removeStorageSync(PROFILE_STORAGE_KEY)
+          wx.removeStorageSync(`userProfile:${userId}`)
         } catch (error) {
           // Storage cleanup failure should not block showing the default profile.
         }
@@ -68,13 +154,11 @@ Page({
   },
 
   applyProfile(profile) {
-    const hasSavedProfile = profile.avatarPath !== DEFAULT_PROFILE.avatarPath
-
     this.setData({
       profile,
       avatarSrc: profile.avatarPath,
       displayName: profile.nickname,
-      loginHint: hasSavedProfile ? '点击头像更换资料' : '点击头像授权登录',
+      loginHint: this.data.isLoggedIn ? '点击头像设置资料（可选）' : '登录后可设置头像昵称',
       isEditingProfile: false,
       isSavingProfile: false,
       pendingAvatarPath: '',
@@ -83,6 +167,9 @@ Page({
   },
 
   handleChooseAvatar(event) {
+    if (!this.data.isLoggedIn) {
+      return
+    }
     const avatarPath = event.detail && event.detail.avatarUrl
 
     if (!avatarPath) {
@@ -95,7 +182,7 @@ Page({
       avatarSrc: avatarPath,
       pendingAvatarPath: avatarPath,
       pendingNickname: this.data.profile.nickname === DEFAULT_PROFILE.nickname ? '' : this.data.profile.nickname,
-      loginHint: '确认昵称后完成登录',
+      loginHint: '确认昵称后保存资料',
     })
   },
 
@@ -112,12 +199,12 @@ Page({
       avatarSrc: this.data.profile.avatarPath,
       pendingAvatarPath: '',
       pendingNickname: '',
-      loginHint: this.data.profile.avatarPath === DEFAULT_PROFILE.avatarPath ? '点击头像授权登录' : '点击头像更换资料',
+      loginHint: '点击头像设置资料（可选）',
     })
   },
 
   completeProfile() {
-    if (this.data.isSavingProfile) {
+    if (!this.data.isLoggedIn || this.data.isSavingProfile) {
       return
     }
 
@@ -172,7 +259,7 @@ Page({
     }
 
     try {
-      wx.setStorageSync(PROFILE_STORAGE_KEY, profile)
+      wx.setStorageSync(`userProfile:${this.userId}`, profile)
     } catch (error) {
       this.setData({
         isSavingProfile: false,

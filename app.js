@@ -1,2 +1,7 @@
-// app.js
-App({})
+const auth = require('./utils/auth')
+
+App({
+  onLaunch() {
+    auth.initialize()
+  },
+})

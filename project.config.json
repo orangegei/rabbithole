@@ -14,9 +14,14 @@
     "useCompilerPlugins": false
   },
   "compileType": "miniprogram",
+  "cloudfunctionRoot": "cloudfunctions/",
   "simulatorPluginLibVersion": {},
   "packOptions": {
-    "ignore": [],
+    "ignore": [
+      { "type": "folder", "value": "cloudfunctions" },
+      { "type": "folder", "value": "docs" },
+      { "type": "folder", "value": ".omx" }
+    ],
     "include": []
   },
   "appid": "wxc332ca1c908a232c",
