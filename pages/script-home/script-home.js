@@ -4,6 +4,8 @@ Page({
     isCityPickerVisible: false,
     selectedCity: '南京',
     visualSrc: '/assets/GPT_t1v1_nj.png',
+    // 仅用于调试“进入剧本”透明点击区域的按压可视化。
+    showScriptEntryHotspot: false,
   },
 
   openCityPicker() {

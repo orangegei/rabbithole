@@ -12,7 +12,7 @@
   <view
     class="task-card-link"
     bindtap="openScriptOpening"
-    hover-class="task-card-link--pressed"
+    hover-class="{{showScriptEntryHotspot ? 'task-card-link--pressed' : 'none'}}"
     hover-stay-time="80"
     aria-role="button"
     aria-label="进入剧本开篇"

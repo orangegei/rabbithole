@@ -89,8 +89,8 @@ Page({
     }
 
     if (this.loginIntent === 'script') {
-      wx.redirectTo({
-        url: '/pages/script-opening/script-opening',
+      wx.navigateBack({
+        delta: 1,
         fail: () => {
           this.isHandlingPrimaryAction = false
           wx.showToast({ title: '已登录，请从首页进入剧本', icon: 'none' })
