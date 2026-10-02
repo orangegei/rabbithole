@@ -56,6 +56,13 @@ Page({
       return
     }
 
+    if (index === 0) {
+      wx.navigateTo({
+        url: '/pages/chapter-one-background/chapter-one-background',
+      })
+      return
+    }
+
     this.completeSuspect(index)
   },
 

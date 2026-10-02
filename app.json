@@ -3,7 +3,8 @@
     "pages/script-home/script-home",
     "pages/user-profile/user-profile",
     "pages/script-opening/script-opening",
-    "pages/suspect-list/suspect-list"
+    "pages/suspect-list/suspect-list",
+    "pages/chapter-one-background/chapter-one-background"
   ],
   "window": {
     "navigationBarTextStyle": "black",

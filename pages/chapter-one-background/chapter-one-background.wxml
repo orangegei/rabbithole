@@ -1,0 +1,43 @@
+<view class="chapter-background-page">
+  <image
+    class="chapter-background-image"
+    src="/assets/GPT_s1v1_back.png"
+    mode="scaleToFill"
+  />
+
+  <view class="chapter-background-copy">
+    <text class="chapter-background-chapter">第一章·产品创意总监孙权·便签疑云</text>
+    <text class="chapter-background-heading">调查背景</text>
+
+    <view class="chapter-background-story">
+      <text class="chapter-background-paragraph">孙权入职半年，交出来的产品全和鸭子有关：神探夏洛鸭、线条小鸭、鸭布布、送你一朵小红鸭……朱元璋忍无可忍：“三天内交出十二生肖云锦设计图，否则滚蛋！”</text>
+      <text class="chapter-background-paragraph">第三天，孙权如期上交朱元璋全套十二生肖，线稿配色注释齐全。</text>
+      <text class="chapter-background-paragraph">但就在交稿次日，李唐文化传媒竟于自家门户发布了完全相同的设计，一字不差。</text>
+      <text class="chapter-background-paragraph">难道是孙权故意泄露商业机密？他为什么要这么做？</text>
+    </view>
+  </view>
+
+  <view
+    class="chapter-background-back-button"
+    bindtap="goBack"
+    hover-class="chapter-background-back-button--pressed"
+    hover-stay-time="80"
+    aria-role="button"
+    aria-label="返回嫌疑人列表"
+  ></view>
+
+  <view
+    class="chapter-background-start-button"
+    bindtap="startInvestigation"
+    hover-class="chapter-background-start-button--pressed"
+    hover-stay-time="80"
+    aria-role="button"
+    aria-label="开始调查"
+  >
+    <image
+      class="chapter-background-start-button-image"
+      src="/assets/GPT_s1v1_button.png"
+      mode="widthFix"
+    />
+  </view>
+</view>
