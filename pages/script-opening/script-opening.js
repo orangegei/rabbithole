@@ -29,7 +29,10 @@ Page({
   },
 
   openComments() {
-    // 参考图底部左侧的“评论”按钮。
+    // 从剧本开篇进入独立评论页。
+    wx.navigateTo({
+      url: '/pages/script-comments/script-comments',
+    })
   },
 
   goBack() {

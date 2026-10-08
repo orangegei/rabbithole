@@ -1,0 +1,9 @@
+{
+  "name": "scriptComments",
+  "version": "1.0.0",
+  "description": "Script comment service for Rabbit Hole mini program",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

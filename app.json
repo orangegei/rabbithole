@@ -3,6 +3,7 @@
     "pages/script-home/script-home",
     "pages/user-profile/user-profile",
     "pages/script-opening/script-opening",
+    "pages/script-comments/script-comments",
     "pages/suspect-list/suspect-list",
     "pages/chapter-one-background/chapter-one-background"
   ],

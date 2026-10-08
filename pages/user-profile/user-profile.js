@@ -103,50 +103,93 @@ Page({
     wx.showToast({ title: '登录成功', icon: 'success' })
   },
 
-  loadUserProfile() {
+  async loadUserProfile() {
     const userId = this.userId
-    let savedProfile
+    const cachedProfile = this.readCachedProfile(userId)
+
+    if (cachedProfile) {
+      this.applyProfile(cachedProfile)
+    }
 
     try {
-      savedProfile = wx.getStorageSync(`userProfile:${userId}`)
+      const response = await wx.cloud.callFunction({
+        name: 'userProfiles',
+        data: { action: 'get' },
+      })
+      const result = response && response.result ? response.result : {}
+      const remoteProfile = result.profile
+
+      if (this.userId !== userId) {
+        return
+      }
+
+      if (remoteProfile && normalizeNickname(remoteProfile.nickname) && remoteProfile.avatarFileId) {
+        const profile = {
+          nickname: normalizeNickname(remoteProfile.nickname),
+          avatarPath: remoteProfile.avatarFileId,
+          updatedAt: remoteProfile.updatedAt,
+        }
+        this.cacheProfile(userId, profile)
+        this.applyProfile(profile)
+        return
+      }
+
+      if (cachedProfile && cachedProfile.avatarPath !== DEFAULT_PROFILE.avatarPath) {
+        this.syncLegacyProfile(cachedProfile)
+        return
+      }
     } catch (error) {
-      this.applyDefaultProfile()
-      return
+      console.error('[user-profile] 读取云端资料失败', error)
     }
 
-    const nickname = normalizeNickname(savedProfile && savedProfile.nickname)
-    const avatarPath = savedProfile && savedProfile.avatarPath
-
-    if (!nickname || !avatarPath) {
+    if (!cachedProfile) {
       this.applyDefaultProfile()
-      return
     }
+  },
 
-    wx.getFileSystemManager().access({
-      path: avatarPath,
-      success: () => {
-        if (this.userId !== userId) {
-          return
-        }
+  readCachedProfile(userId) {
+    try {
+      const savedProfile = wx.getStorageSync(`userProfile:${userId}`)
+      const nickname = normalizeNickname(savedProfile && savedProfile.nickname)
+      const avatarPath = savedProfile && savedProfile.avatarPath
+      return nickname && avatarPath ? { nickname, avatarPath, updatedAt: savedProfile.updatedAt } : null
+    } catch (error) {
+      return null
+    }
+  },
+
+  cacheProfile(userId, profile) {
+    try {
+      wx.setStorageSync(`userProfile:${userId}`, profile)
+    } catch (error) {
+      // 缓存失败不能影响云端资料的真实保存结果。
+    }
+  },
+
+  async syncLegacyProfile(profile) {
+    try {
+      const uploadResult = await wx.cloud.uploadFile({
+        cloudPath: `user-profiles/${this.userId}/${Date.now()}.png`,
+        filePath: profile.avatarPath,
+      })
+      await wx.cloud.callFunction({
+        name: 'userProfiles',
+        data: {
+          action: 'save',
+          nickname: profile.nickname,
+          avatarFileId: uploadResult.fileID,
+        },
+      })
+      if (this.isPageActive) {
         this.applyProfile({
-          nickname,
-          avatarPath,
-          updatedAt: savedProfile.updatedAt,
+          nickname: profile.nickname,
+          avatarPath: uploadResult.fileID,
+          updatedAt: Date.now(),
         })
-      },
-      fail: () => {
-        if (this.userId !== userId) {
-          return
-        }
-        try {
-          wx.removeStorageSync(`userProfile:${userId}`)
-        } catch (error) {
-          // Storage cleanup failure should not block showing the default profile.
-        }
-
-        this.applyDefaultProfile()
-      },
-    })
+      }
+    } catch (error) {
+      console.error('[user-profile] 同步本地资料失败', error)
+    }
   },
 
   applyDefaultProfile() {
@@ -203,7 +246,7 @@ Page({
     })
   },
 
-  completeProfile() {
+  async completeProfile() {
     if (!this.data.isLoggedIn || this.data.isSavingProfile) {
       return
     }
@@ -227,73 +270,42 @@ Page({
       return
     }
 
-    const fileSystemManager = wx.getFileSystemManager()
-
     this.setData({
       isSavingProfile: true,
     })
 
-    fileSystemManager.saveFile({
-      tempFilePath: tempAvatarPath,
-      success: (result) => {
-        this.persistProfile(nickname, result.savedFilePath)
-      },
-      fail: () => {
-        this.setData({
-          isSavingProfile: false,
-        })
-        wx.showToast({
-          title: '头像保存失败',
-          icon: 'none',
-        })
-      },
-    })
-  },
-
-  persistProfile(nickname, avatarPath) {
-    const oldAvatarPath = this.data.profile.avatarPath
-    const profile = {
-      nickname,
-      avatarPath,
-      updatedAt: Date.now(),
-    }
-
     try {
-      wx.setStorageSync(`userProfile:${this.userId}`, profile)
+      const uploadResult = await wx.cloud.uploadFile({
+        cloudPath: `user-profiles/${this.userId}/${Date.now()}.png`,
+        filePath: tempAvatarPath,
+      })
+      const response = await wx.cloud.callFunction({
+        name: 'userProfiles',
+        data: {
+          action: 'save',
+          nickname,
+          avatarFileId: uploadResult.fileID,
+        },
+      })
+      const result = response && response.result ? response.result : {}
+      const profile = {
+        nickname: normalizeNickname(result.profile && result.profile.nickname) || nickname,
+        avatarPath: (result.profile && result.profile.avatarFileId) || uploadResult.fileID,
+        updatedAt: Date.now(),
+      }
+      this.cacheProfile(this.userId, profile)
+      this.applyProfile(profile)
+      wx.showToast({ title: '已保存', icon: 'success' })
     } catch (error) {
+      console.error('[user-profile] 保存云端资料失败', error)
       this.setData({
         isSavingProfile: false,
       })
-      this.removeSavedAvatar(avatarPath)
       wx.showToast({
-        title: '资料保存失败',
+        title: '资料保存失败，请稍后重试',
         icon: 'none',
       })
-      return
     }
-
-    this.applyProfile(profile)
-    this.removeOldAvatar(oldAvatarPath, avatarPath)
-
-    wx.showToast({
-      title: '已保存',
-      icon: 'success',
-    })
-  },
-
-  removeOldAvatar(oldAvatarPath, nextAvatarPath) {
-    if (!oldAvatarPath || oldAvatarPath === DEFAULT_PROFILE.avatarPath || oldAvatarPath === nextAvatarPath) {
-      return
-    }
-
-    this.removeSavedAvatar(oldAvatarPath)
-  },
-
-  removeSavedAvatar(avatarPath) {
-    wx.getFileSystemManager().removeSavedFile({
-      filePath: avatarPath,
-      fail: () => {},
-    })
   },
 
   continueGame() {

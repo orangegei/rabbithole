@@ -1,0 +1,9 @@
+{
+  "name": "userProfiles",
+  "version": "1.0.0",
+  "description": "User profile sync for Rabbit Hole mini program",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

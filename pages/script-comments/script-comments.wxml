@@ -1,0 +1,115 @@
+<view class="script-comments-page">
+  <image
+    class="script-comments-background"
+    src="{{showEmptyState ? '/assets/GPT_t1v4_empty.png' : '/assets/GPT_t1v4_back.png'}}"
+    mode="scaleToFill"
+  />
+  <view
+    class="script-comments-back-button"
+    bindtap="goBack"
+    aria-role="button"
+    aria-label="返回剧本开篇"
+  ></view>
+  <view
+    class="script-comments-write-button"
+    bindtap="handleWriteComment"
+    hover-class="script-comments-write-button--pressed"
+    hover-stay-time="80"
+    aria-role="button"
+    aria-label="写评论"
+  >
+    <image
+      class="script-comments-write-button-image"
+      src="/assets/GPT_t1v4_write.png"
+      mode="aspectFit"
+    />
+  </view>
+
+  <scroll-view
+    wx:if="{{!showEmptyState}}"
+    class="script-comments-list"
+    scroll-y
+    enhanced
+    refresher-enabled
+    refresher-triggered="{{isRefreshing}}"
+    bindrefresherrefresh="handleRefresh"
+    bindscrolltolower="handleLoadMore"
+    lower-threshold="120"
+  >
+    <view wx:if="{{isInitialLoading}}" class="script-comments-state">正在载入评论…</view>
+    <block wx:for="{{comments}}" wx:key="_id">
+      <view class="script-comment-card">
+        <image class="script-comment-avatar" src="{{item.avatarSrc}}" mode="aspectFill" />
+        <view class="script-comment-main">
+          <view class="script-comment-heading">
+            <text class="script-comment-nickname">{{item.nickname}}</text>
+            <text wx:if="{{item.isOwner}}" class="script-comment-owner">我</text>
+          </view>
+          <text class="script-comment-content {{item.isExpanded ? '' : 'script-comment-content--collapsed'}}">{{item.content}}</text>
+          <text class="script-comment-measure" data-id="{{item._id}}">{{item.content}}</text>
+          <view class="script-comment-footer">
+            <view>
+              <text wx:if="{{item.canExpand}}" class="script-comment-expand" bindtap="toggleComment" data-id="{{item._id}}" aria-role="button" aria-label="{{item.isExpanded ? '收起全文' : '展开全文'}}">{{item.isExpanded ? '收起' : '展开全文'}}</text>
+            </view>
+            <view class="script-comment-actions">
+              <text class="script-comment-time">{{item.relativeTime}}</text>
+              <text wx:if="{{item.isOwner}}" class="script-comment-delete" bindtap="deleteComment" data-id="{{item._id}}" aria-role="button" aria-label="删除这条评论">删除</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+    <view wx:if="{{loadError}}" class="script-comments-state script-comments-state--retry" bindtap="retryLoad" aria-role="button">{{loadError}}</view>
+    <view wx:elif="{{isLoadingMore}}" class="script-comments-state">加载中…</view>
+    <view wx:elif="{{hasLoaded && comments.length && !hasMore}}" class="script-comments-state">已经到底了</view>
+  </scroll-view>
+
+  <view
+    wx:if="{{isComposerVisible}}"
+    class="script-comments-composer-mask"
+    catchtap="closeCommentComposer"
+    aria-role="button"
+    aria-label="关闭评论输入框"
+  ></view>
+
+  <view
+    wx:if="{{isComposerVisible}}"
+    class="script-comments-composer"
+    style="bottom: {{keyboardHeight}}px;"
+  >
+    <view class="script-comments-composer-header">
+      <text class="script-comments-composer-title">写评论</text>
+      <text class="script-comments-composer-count">{{draftLength}}/{{maxCommentLength}}</text>
+    </view>
+    <textarea
+      class="script-comments-composer-input"
+      value="{{draftContent}}"
+      focus="{{isComposerFocused}}"
+      maxlength="{{maxCommentLength}}"
+      placeholder="写下你的评论…"
+      placeholder-class="script-comments-composer-placeholder"
+      auto-height
+      fixed
+      adjust-position="{{false}}"
+      cursor-spacing="20"
+      bindinput="handleCommentInput"
+      aria-label="评论内容"
+    />
+    <view class="script-comments-composer-actions">
+      <view
+        class="script-comments-composer-cancel"
+        bindtap="closeCommentComposer"
+        aria-role="button"
+        aria-label="取消写评论"
+      >取消</view>
+      <view
+        class="script-comments-composer-submit {{canSubmitDraft ? '' : 'script-comments-composer-submit--disabled'}}"
+        bindtap="handleCommentSubmit"
+        aria-role="button"
+        aria-label="发布评论"
+        aria-disabled="{{!canSubmitDraft}}"
+      >发布</view>
+    </view>
+  </view>
+
+</view>
